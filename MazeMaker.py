@@ -8,24 +8,31 @@ import Positions
 
 
 class ThreeDMaze:
-    def __init__(self, size = 15):
+    def __init__(self, size = 4):
         self.size = size  # size of maze (length of width, length, and depth)
-        self.number_of_obstacles = size // 5  # number of obstacles in the maze
+        self.number_of_obstacles = size // 3  # number of obstacles in the maze
         self.obstacle_positions = []  # each element in the list is a obstacle which consist of couple positions
+
+        # generate obstacles
         self.generate_obstacle()
 
-        # Demo
-        self.demo_with555()
-        self.demo_with666()
-
     """
-    Two pre set maze to test whether the algorithm works
+    Add a obstacle at the middle of the maze
     """
-    def demo_with555(self):
-        self.obstacle_positions.append(Positions.Position())
-
-    def demo_with666(self):
-        self.obstacle_positions.append(Positions.Position())
+    def fixed_obstacle(self):
+        temp = [Positions.Position(self.size // 2, self.size // 2 - 2, self.size // 2 - 1),
+                Positions.Position(self.size // 2, self.size // 2 - 1, self.size // 2 - 1),
+                Positions.Position(self.size // 2, self.size // 2, self.size // 2 - 1),
+                Positions.Position(self.size // 2, self.size // 2 + 1, self.size // 2 - 1),
+                Positions.Position(self.size // 2, self.size // 2 - 2, self.size // 2),
+                Positions.Position(self.size // 2, self.size // 2 - 1, self.size // 2),
+                Positions.Position(self.size // 2, self.size // 2, self.size // 2),
+                Positions.Position(self.size // 2, self.size // 2 + 1, self.size // 2),
+                Positions.Position(self.size // 2, self.size // 2 - 2, self.size // 2 + 1),
+                Positions.Position(self.size // 2, self.size // 2 - 1, self.size // 2 + 1),
+                Positions.Position(self.size // 2, self.size // 2, self.size // 2 + 1),
+                Positions.Position(self.size // 2, self.size // 2 + 1, self.size // 2 + 1)]
+        self.obstacle_positions.append(temp)
 
     """
     Generate a square obstacle 
@@ -50,24 +57,26 @@ class ThreeDMaze:
     """
     def generate_obstacle(self):
 
-        for i in range(self.number_of_obstacles):
+        self.fixed_obstacle()
+
+        for i in range(self.number_of_obstacles - 1):
             flag = np.random.randint(1, 3)
 
             if flag == 1:
                 # generate obstacles on xy plane
-                obstacle_size = np.random.randint(3, 5)
+                obstacle_size = np.random.randint(3, 6)
                 # self.obstacle(obstacle_size, obstacle_size, 0)
                 self.obstacle_positions.append(self.obstacle(obstacle_size, obstacle_size, 1))
 
             elif flag == 2:
                 # generate obstacles on xz plane
-                obstacle_size = np.random.randint(3, 5)
+                obstacle_size = np.random.randint(3, 6)
                 # self.obstacle(obstacle_size, 0, obstacle_size)
                 self.obstacle_positions.append(self.obstacle(obstacle_size, 1, obstacle_size))
 
             elif flag == 3:
                 # generate obstacles on yz plane
-                obstacle_size = np.random.randint(3, 5)
+                obstacle_size = np.random.randint(3, 6)
                 # self.obstacle(0, obstacle_size, obstacle_size)
                 self.obstacle_positions.append(self.obstacle(1, obstacle_size, obstacle_size))
 

@@ -27,7 +27,7 @@ class AStar:
     """
     @staticmethod
     def calculate_dis(dis, dx, dy, dz, cost):
-        if dis == "manhattan":
+        if dis == "Manhattan":
             return dx + dy + dz
         elif dis == "diagonal":
             return dx + dy + dz + (cost - 2) * min(dx, dy, dz)
@@ -48,7 +48,8 @@ class AStar:
         dy = position.y
         dz = position.z
 
-        return self.calculate_dis(distance, dx, dy, dz, cost)
+        return (self.calculate_dis("diagonal", dx, dy, dz, cost) + self.calculate_dis("Euclidean", dx, dy, dz, cost) +
+                self.calculate_dis("Manhattan", dx, dy, dz, cost)) / 3
 
     """
     Calculate the distance between current position and end point
@@ -63,7 +64,8 @@ class AStar:
         dy = self.maze.size - 1 - position.y
         dz = self.maze.size - 1 - position.z
 
-        return self.calculate_dis(distance, dx, dy, dz, cost)
+        return (self.calculate_dis("diagonal", dx, dy, dz, cost) + self.calculate_dis("Euclidean", dx, dy, dz, cost) +
+                self.calculate_dis("Manhattan", dx, dy, dz, cost)) / 3
 
     """
     Calculate the total cost which is the sum of base cost and heuristic cost
@@ -191,7 +193,7 @@ class AStar:
             else:
                 pos = pos.parent
         end_time = time.time()
-        print('===== Algorithm finish in', int(end_time-start_time), ' seconds')
+        print('===== Algorithm finish in', int(end_time - start_time), ' seconds')
         return path
 
     """
